@@ -1,0 +1,13 @@
+mdl = "springslx";
+% 
+% open_system("springslx");
+a = [0, 1; -0.02, 0];
+
+lynsis = linearize(mdl);
+
+[V, D] = eigs(a)
+V(1,:)
+V(2,:)
+in = V(1) + V(2)
+
+initial(lynsis)
