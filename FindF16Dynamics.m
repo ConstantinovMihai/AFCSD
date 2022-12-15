@@ -14,7 +14,7 @@ clear;
 
 global fi_flag_Simulink
 
-newline = sprintf('\n');
+newline;
 
 %% Trim aircraft to desired altitude and velocity
 %%
@@ -84,6 +84,31 @@ SS_long_hi.StateName = SS_hi.StateName(long_states);
 SS_long_lo.InputName= SS_lo.InputName(long_inputs);
 SS_long_hi.InputName= SS_hi.InputName(long_inputs);
 
+%%%%%%%%%%%%%%%%%%%%%%%
+%% Chapter 5 answers
+%%%%%%%%%%%%%%%%%%%%%%%
+
+an_out = [19];
+SS_long_lo_an = ss(SS_lo.A(long_states,long_states), SS_lo.B(long_states,long_inputs), SS_lo.C(an_out,long_states), SS_lo.D(an_out,long_inputs));
+
+SS_long_lo_an.StateName = SS_lo.StateName(long_states);
+SS_long_lo_an.InputName = SS_lo.InputName(long_inputs);
+SS_long_lo_an.OutputName = "normal acceleration";
+
+% Obtain transfer function from inputs to normal acceleration
+H = minreal(tf(SS_long_lo_an));
+% get the transfer function from elevator input to normal acceleration
+el_to_an = H(2);
+
+% get the system response to a negative step input (nose up) in the elevator
+opt = stepDataOptions("StepAmplitude", -1);
+
+t = 0:0.05:100;
+[y, t] = step(el_to_an, t, opt);
+figure(1)
+pzmap(el_to_an)
+
+
 %%%%%%%%%%%%%%%%%%%%
 %% Lateral Direction
 %%%%%%%%%%%%%%%%%%%%
@@ -102,8 +127,11 @@ SS_lat_lo.InputName= SS_lo.InputName(lat_inputs);
 SS_lat_hi.InputName= SS_hi.InputName(lat_inputs);
 
 
+
+
+
 %% All Poles
-figure(1); 
+figure(2); 
 pzmap(SS_hi, 'r', SS_lo, 'b');
 title_string = sprintf('Altitude = %.2f ft Velocity = %.2f ft/s\nAll Poles\n Blue = lofi Red = hifi.', altitude, velocity);
 title(title_string);
@@ -111,7 +139,7 @@ sgrid;
 
 %% Longitudinal Poles
 %%
-figure(2); 
+figure(3); 
 pzmap(SS_long_hi, 'r', SS_long_lo, 'b');
 title_string = sprintf('Altitude = %.2f ft Velocity = %.2f ft/s\nLongitudal Directional Poles\n Blue = lofi Red = hifi.', altitude, velocity);
 title(title_string);
@@ -119,7 +147,7 @@ sgrid;
 
 %% Lateral Poles
 %%
-figure(3); 
+figure(4); 
 pzmap(SS_lat_hi, 'r', SS_lat_lo, 'b');
 title_string = sprintf('Altitude = %.2f ft Velocity = %.2f ft/s\nLateral Directional Poles\n Blue = lofi Red = hifi.', altitude, velocity);
 title(title_string);
@@ -133,11 +161,11 @@ output = 3;
 
 omega = logspace(-2,2,100);
 
-figure
-bode(SS_long_hi(output,input),omega)
-hold on;
-bode(SS_long_lo(output,input),omega)
-legend('hifi','lofi')
+% figure
+% bode(SS_long_hi(output,input),omega);
+% hold on;
+% bode(SS_long_lo(output,input),omega);
+% legend('hifi','lofi')
 
 %% Bode plot lateral 
 
@@ -147,8 +175,8 @@ output = 3;
 
 omega = logspace(-2,2,100);
 
-figure
-bode(SS_lat_hi(output,input),omega)
-hold on;
-bode(SS_lat_lo(output,input),omega)
-legend('hifi','lofi')
+% figure;
+% bode(SS_lat_hi(output,input),omega);
+% hold on;
+% bode(SS_lat_lo(output,input),omega);
+% legend('hifi','lofi')
