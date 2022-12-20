@@ -133,18 +133,11 @@ long_ol_outputs = [3 5 7 8 11];
 SS_long_ol = ss(SS_lo.A(long_ol_states,long_ol_states), SS_lo.B(long_ol_states,long_ol_inputs), SS_lo.C(long_ol_outputs,long_ol_states), SS_lo.D(long_ol_outputs,long_ol_inputs));
 
 % these are the reduced matrices
-A_long_ac = SS_long_ol.A(1:4,1:4);
-B_long_ac = SS_long_ol.A(1:4,5:6);
+A_ac = SS_long_ol.A(1:4,1:4)
+B_ac = SS_long_ol.A(1:4,5:6)
 
 % lateral state space model
-lat_ol_states = [9, 4, 10, 12, 15, 16]; 
-lat_ol_inputs = [3, 4];
-lat_ol_outputs = [2];
-
-SS_lat_ol = ss(SS_lo.A(lat_ol_states,lat_ol_states), SS_lo.B(lat_ol_states,lat_ol_inputs), SS_lo.C(lat_ol_outputs,lat_ol_states), SS_lo.D(lat_ol_outputs,lat_ol_inputs));
-
-A_lat_ac = SS_lat_ol.A(1:4, 1:4)
-B_lat_ac = SS_lat_ol.A(1:4, 5:6)
+lat_ol_states = [] 
 
 %%%%%%%%%%%%%%%%%%%%
 %% Lateral Direction
