@@ -98,21 +98,22 @@ SS_long_lo_an.StateName = SS_lo.StateName(long_states);
 SS_long_lo_an.InputName = SS_lo.InputName(long_inputs);
 SS_long_lo_an.OutputName = "normal acceleration";
 
-% Obtain transfer function from inputs to normal acceleration
-H = minreal(tf(SS_long_lo_an));
+% Obtain transfer function from inputs to normal acceleration 
+% and trim the pole zero cancellations
+H = minreal(tf(SS_long_lo_an), 10e-8);
 % get the transfer function from elevator input to normal acceleration
 % answer to question 5.5
 el_to_an = H(2);
-
 % get the system response to a negative step input (nose up) in the elevator
 opt = stepDataOptions("StepAmplitude", -1);
 
-t = 0:0.05:8;
+t = 0:0.05:3.5;
 [y, t] = step(el_to_an, t, opt);
 figure(1)
 % answer to question 5.6
-plot(t, y);
-
+plot(t, y)
+xlabel('Time (s)') 
+ylabel('Normal acceleration (g)') 
 figure(2)
 pzmap(el_to_an)
 % answer to qestion 5.7
@@ -143,8 +144,10 @@ lat_ol_outputs = [2];
 
 SS_lat_ol = ss(SS_lo.A(lat_ol_states,lat_ol_states), SS_lo.B(lat_ol_states,lat_ol_inputs), SS_lo.C(lat_ol_outputs,lat_ol_states), SS_lo.D(lat_ol_outputs,lat_ol_inputs));
 
-A_lat_ac = SS_lat_ol.A(1:4, 1:4)
-B_lat_ac = SS_lat_ol.A(1:4, 5:6)
+A_lat_ac = SS_lat_ol.A(1:4, 1:4);
+B_lat_ac = SS_lat_ol.A(1:4, 5:6);
+
+e = eig(A_lat_ac);
 
 %%%%%%%%%%%%%%%%%%%%
 %% Lateral Direction
