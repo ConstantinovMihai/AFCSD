@@ -164,13 +164,8 @@ B_long_ac_GS = SS_long_lo_GS.A(1:5,6:7);
 
 SS_long_lo_GS_red = ss(A_long_ac_GS, B_long_ac_GS, SS_lo.C(GS_outputs,GS_states(1:5)), SS_lo.D(GS_outputs,GS_inputs));
 
-SS_long_lo_GS_red.StateName = SS_lo.StateName(GS_states(1:5));
-SS_long_lo_GS_red.InputName= SS_lo.InputName(GS_inputs);
-
-gs_angle_deg = 3;
-gs_ref_angle = gs_angle_deg/180*pi;
-start_pos = 2000/tan(gs_ref_angle) + 10*velocity;
-
+SS_long_lo_GS.StateName = SS_lo.StateName(GS_states(1:5));
+SS_long_lo_GS.InputName= SS_lo.InputName(GS_inputs);
 
 %%%%%%%%%%%%%%%%%%%%
 %% Lateral Direction
