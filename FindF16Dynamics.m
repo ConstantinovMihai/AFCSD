@@ -153,7 +153,7 @@ e = eig(A_lat_ac);
 %% Chapter 8 answers %%
 %%%%%%%%%%%%%%%%%%%%
 
-GS_states = [3 7 8 5 11 14 13];
+GS_states = [3 7 8 5 11 13 14];
 GS_inputs = [1 2];
 GS_outputs = [3 7 8 5 11];
 
