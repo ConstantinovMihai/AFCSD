@@ -171,7 +171,8 @@ gs_angle_deg = 3;
 gs_ref_angle = gs_angle_deg/180*pi;
 start_pos = 2000/tan(gs_ref_angle) + 10*velocity;
 
-h_flare = 9.7;
+h_flare = 19.2;
+tau = 1.22;
 
 
 
