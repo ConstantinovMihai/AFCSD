@@ -8,7 +8,7 @@ B_g =  [ -0.0009;
             -0.0620];
 
 C_g = [57.2958, 0; 0, 57.2958];
-D_g = [0; 0];
+D_g = [0, 0];
 
 %  desired pole locations
 p_g = [-1.8288 + 3.1676*1i, -1.8288 - 3.1676*1i];
@@ -31,13 +31,11 @@ kal2 = interp1(vel, K_alpha_int, 340);
 
 the_num = interp1(vel, Thetas_num, 340)
 the_den = interp1(vel, Thetas_den, 340)
-% k_fw_int = interp1(vel, K, 340)
+k_fw_int = interp1(vel, K, 340)
 
-
-K_int_matrix = [-176.001, -42.11];
+K_int_matrix = [kal2, kq1]
 
 s = tf('s');
 sys = ss(A_g, B_g, C_g, D_g);
-sys2 = ss(A_g - B_g*K_int_matrix, B_g, C_g, D_g)
-pole(sys2)
+new_sys = feedback(sys,)
 

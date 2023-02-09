@@ -38,6 +38,11 @@ p = [-1.3716 + 2.376*1i, -1.3716 - 2.376*1i];
 % 
 K_red = place(A_red, B_red, p);
 
+sys = ss(A_red, B_red, C_red, D_red);
+sys2 = ss(A_red-B_red*K_red, B_red, C_red, D_red);
+pole(sys2)
+damp(sys2)
+
 % out = sim(out);
 % 
 % t = out.tout;
