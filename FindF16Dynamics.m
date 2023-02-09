@@ -100,24 +100,28 @@ SS_long_lo_an.OutputName = "normal acceleration";
 
 % Obtain transfer function from inputs to normal acceleration 
 % and trim the pole zero cancellations
-H = minreal(tf(SS_long_lo_an), 10e-8);
+H = minreal(tf(SS_long_lo_an), 10e-5);
 % get the transfer function from elevator input to normal acceleration
 % answer to question 5.5
 el_to_an = H(2);
 % get the system response to a negative step input (nose up) in the elevator
 opt = stepDataOptions("StepAmplitude", -1);
 
-t = 0:0.05:3.5;
+t = 0:0.01:3;
+
+% UNCOMMENT THIS TO GET CHAPTER 5 ANSWERS 
+
 [y, t] = step(el_to_an, t, opt);
 figure(1)
 % answer to question 5.6
 plot(t, y)
+grid on
 xlabel('Time (s)') 
 ylabel('Normal acceleration (g)') 
 figure(2)
 pzmap(el_to_an)
 % answer to qestion 5.7
-% pzmap(el_to_an)
+pzmap(el_to_an)
 
 % answer to question 5.9
 z = zero(el_to_an);
@@ -129,7 +133,7 @@ z = zero(el_to_an);
 % longitudinal state space model
 long_ol_states = [7, 8, 5, 11, 14, 13];
 long_ol_inputs = [1, 2];
-long_ol_outputs = [3 5 7 8 11];
+long_ol_outputs = [7, 8, 5, 11];
 
 SS_long_ol = ss(SS_lo.A(long_ol_states,long_ol_states), SS_lo.B(long_ol_states,long_ol_inputs), SS_lo.C(long_ol_outputs,long_ol_states), SS_lo.D(long_ol_outputs,long_ol_inputs));
 
@@ -137,10 +141,14 @@ SS_long_ol = ss(SS_lo.A(long_ol_states,long_ol_states), SS_lo.B(long_ol_states,l
 A_long_ac = SS_long_ol.A(1:4,1:4);
 B_long_ac = SS_long_ol.A(1:4,5:6);
 
+C_long_ac = SS_long_ol.C(1:4,1:4);
+D_long_ac = SS_long_ol.C(1:4,5:6);
+
+
 % lateral state space model
 lat_ol_states = [9, 4, 10, 12, 15, 16]; 
 lat_ol_inputs = [3, 4];
-lat_ol_outputs = [2];
+lat_ol_outputs = [9, 4, 10, 12];
 
 SS_lat_ol = ss(SS_lo.A(lat_ol_states,lat_ol_states), SS_lo.B(lat_ol_states,lat_ol_inputs), SS_lo.C(lat_ol_outputs,lat_ol_states), SS_lo.D(lat_ol_outputs,lat_ol_inputs));
 
@@ -148,6 +156,8 @@ A_lat_ac = SS_lat_ol.A(1:4, 1:4);
 B_lat_ac = SS_lat_ol.A(1:4, 5:6);
 
 e = eig(A_lat_ac);
+
+
 
 %%%%%%%%%%%%%%%%%%%%
 %% Lateral Direction
@@ -165,9 +175,6 @@ SS_lat_hi.StateName = SS_hi.StateName(lat_states);
 
 SS_lat_lo.InputName= SS_lo.InputName(lat_inputs);
 SS_lat_hi.InputName= SS_hi.InputName(lat_inputs);
-
-
-
 
 
 %% All Poles
