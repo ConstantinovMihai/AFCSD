@@ -160,6 +160,34 @@ e = eig(A_lat_ac);
 
 
 %%%%%%%%%%%%%%%%%%%%
+%% Chapter 8 answers %%
+%%%%%%%%%%%%%%%%%%%%
+
+GS_states = [3 7 8 5 11 13 14];
+GS_inputs = [1 2];
+GS_outputs = [3 7 8 5 11];
+
+SS_long_lo_GS = ss(SS_lo.A(GS_states,GS_states), SS_lo.B(GS_states,GS_inputs), SS_lo.C(GS_outputs,GS_states), SS_lo.D(GS_outputs,GS_inputs));
+
+A_long_ac_GS = SS_long_lo_GS.A(1:5, 1:5);
+B_long_ac_GS = SS_long_lo_GS.A(1:5,6:7);
+
+SS_long_lo_GS_red = ss(A_long_ac_GS, B_long_ac_GS, SS_lo.C(GS_outputs,GS_states(1:5)), SS_lo.D(GS_outputs,GS_inputs));
+
+SS_long_lo_GS_red.StateName = SS_lo.StateName(GS_states(1:5));
+SS_long_lo_GS_red.InputName= SS_lo.InputName(GS_inputs);
+
+gs_angle_deg = 3;
+gs_ref_angle = gs_angle_deg/180*pi;
+start_pos = 2000/tan(gs_ref_angle) + 10*velocity;
+
+h_flare = 19.2;
+tau = 1.22;
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%
 %% Lateral Direction
 %%%%%%%%%%%%%%%%%%%%
 
