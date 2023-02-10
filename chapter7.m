@@ -43,25 +43,30 @@ sys2 = ss(A_red-B_red*K_red, B_red, C_red, D_red);
 pole(sys2)
 damp(sys2)
 
-% out = sim(out);
-% 
-% t = out.tout;
-% pitch_angle = out.pitch_angle.Data;
-% pitch_rate = out.pitch_rate.Data;
-% stepr = out.square_signal.Data;
-% 
-% hold on;
-% grid on;
-% 
-% plot(t, pitch_angle, 'LineWidth', 1.5);
-% plot(t, pitch_rate,  'LineWidth', 1.5);
-% plot(t, stepr,  'LineWidth', 1.5)
-% 
-% xlabel('Time (s)') 
-% ylabel('Response magnitude')
-% hold off;
-% 
-% legend('Pitch angle','Pitch rate', 'Input', 'Location','best')
+% out = sim("pitchratecommand");
+mdl = "pitchratecommand";
+open_system(mdl)
+simIn = Simulink.SimulationInput(mdl);
+simIn = setModelParameter(simIn,'StopTime','5');
+out = sim(simIn);
+
+t = out.tout;
+pitch_angle = out.pitch_angle.Data;
+pitch_rate = out.pitch_rate.Data;
+stepr = out.square_signal.Data;
+
+hold on;
+grid on;
+
+plot(t, pitch_angle, 'LineWidth', 1.5);
+plot(t, pitch_rate,  'LineWidth', 1.5);
+plot(t, stepr,  'LineWidth', 1.5)
+
+xlabel('Time (s)') 
+ylabel('Response magnitude')
+hold off;
+
+legend('Pitch angle', 'Pitch rate','Input', 'Location','best')
 % 
 % hold off;
 % ss_red = linearize('pitchratecommand');

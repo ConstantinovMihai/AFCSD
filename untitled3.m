@@ -16,6 +16,10 @@ tfs = tf(sys)
 % rltool(-tfs(1))
 
 k1 = -3.0807;
+
+K_alpha_mat = [-3.0807, 0];
+K_q_mat = [0, -0.86825];
+
 A_g2 = A_red - B_red * C_red(1,:) * k1
 
 sys2 = ss(A_g2, B_red, C_red, D_red);
@@ -23,7 +27,6 @@ sys2 = ss(A_g2, B_red, C_red, D_red);
 tfs2 = tf(sys2);
 k2 = -0.86825
 
-A_g3 = A_red - B_red * C_red(2,:) * k2
-sys3 = feedback(sys2, [k2, k2]);
+sys3 = feedback(sys2, [0, k2]);
 
 damp(sys3)
