@@ -1,17 +1,29 @@
+% rltool(Copy_of_pitchratecommand)
+
 A_red = [  -0.3190      0.9509;
             -0.9356  -0.5072];
 
 B_red =  [ -0.0007;
             -0.0381];
 
-C_red = [1, 0; 0, 1];
+C_red = [57.2958, 0; 0, 57.2958];
 D_red = [0; 0];
 
-sys = ss(A_red, B_red, C_red, D_red);
+sys = ss(A_red, B_red, C_red, D_red);-0.86825
 
 tfs = tf(sys)
+% 
+% rltool(-tfs(1))
 
-rltool(-tfs(2))
+k1 = -3.0807;
+A_g2 = A_red - B_red * C_red(1,:) * k1
 
-k1 = 6.0998;
+sys2 = ss(A_g2, B_red, C_red, D_red);
 
+tfs2 = tf(sys2);
+k2 = -0.86825
+
+A_g3 = A_red - B_red * C_red(2,:) * k2
+sys3 = ss(A_g3, B_red, C_red, D_red);
+
+damp(sys3)
